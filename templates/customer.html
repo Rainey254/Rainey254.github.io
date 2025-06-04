@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer Service</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #fffbea;
+      color: #333;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      margin-bottom: 0.5rem;
+      color: #facc15;
+    }
+
+    p {
+      font-size: 1.1rem;
+      color: #555;
+      max-width: 600px;
+      margin-bottom: 2rem;
+    }
+
+    .contact-box {
+      background-color: #fff;
+      padding: 20px;
+      border: 2px solid #facc15;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .contact-box input,
+    .contact-box textarea {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      border: 1.5px solid #facc15;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    .contact-box button {
+      width: 100%;
+      padding: 0.8rem;
+      background-color: #facc15;
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    .contact-box button:hover {
+      background-color: #eab308;
+    }
+
+    .success {
+      display: none;
+      margin-top: 1rem;
+      color: green;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>🛎️ Customer Service</h1>
+  <p>We're here to help. Fill out the form below and our team will get back to you as soon as possible.</p>
+
+  <div class="contact-box">
+    <form id="contact-form" action="https://formspree.io/f/your-form-id" method="POST">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <textarea name="message" rows="4" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+      <div class="success" id="success-msg">Message sent! Redirecting...</div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('contact-form');
+    const successMsg = document.getElementById('success-msg');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+
+      fetch(form.action, {
+        method: form.method,
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+      .then(response => {
+        if (response.ok) {
+          successMsg.style.display = 'block';
+          form.reset();
+          setTimeout(() => {
+            window.location.href = "/thank-you.html"; // ← Change to your actual redirect page
+          }, 2500);
+        } else {
+          alert('Something went wrong. Please try again.');
+        }
+      })
+      .catch(error => {
+        alert('Error: ' + error.message);
+      });
+    });
+  </script>
+</body>
+</html>

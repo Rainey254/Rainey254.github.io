@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Order History</title>
+  <style>
+    /* Reset and base styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffffff;
+      color: #000;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    header {
+      background-color: #000;
+      color: #FFD700;
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    header nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+      gap: 20px;
+    }
+
+    header nav a {
+      color: #FFD700;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    header nav a:hover {
+      color: #fff;
+    }
+
+    /* Main layout */
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+      background-color: #f8f8f8;
+    }
+
+    /* Container for form */
+    .order-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    /* Order list styling */
+    .order-list {
+      background-color: #ffffff;
+      padding: 20px;
+      width: 100%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .order-item:last-child {
+      border-bottom: none;
+    }
+
+    .order-item button {
+      background-color: #FFD700;
+      color: #000;
+      border: none;
+      padding: 5px 12px;
+      font-size: 1em;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .order-item button:hover {
+      background-color: #e6c200;
+    }
+
+    .order-item span {
+      font-size: 1em;
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #000;
+      color: #fff;
+      text-align: center;
+      padding: 15px 0;
+      font-size: 0.9em;
+    }
+
+    /* Proceed to Pay Button */
+    .proceed-button {
+      background-color: #FFD700;
+      color: #000;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1.2em;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background-color 0.3s ease;
+    }
+
+    .proceed-button:hover {
+      background-color: #e6c200;
+    }
+
+    /* Total amount section */
+    .total-amount {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+  </style>
+  <script>
+    // Example cart items
+    let cartItems = [
+      { id: 1, name: 'Man -shirt', price: 500, quantity: 1 }, // Price updated to Ksh
+      { id: 2, name: 'Woman Scart', price: 600, quantity: 1 }  // Price updated to Ksh
+    ];
+
+    // Function to update the total price
+    function updateTotal() {
+      let total = 0;
+      cartItems.forEach(item => {
+        total += item.price * item.quantity;
+      });
+      document.getElementById('total-amount').innerText = `Total Amount: Ksh ${total}`; // Updated to Ksh
+    }
+
+    // Function to handle item removal
+    function removeItem(itemId) {
+      cartItems = cartItems.filter(item => item.id !== itemId);
+      document.getElementById(`order-item-${itemId}`).remove();
+      updateTotal();
+    }
+
+    // Function to increase item quantity
+    function increaseQuantity(itemId) {
+      const item = cartItems.find(item => item.id === itemId);
+      item.quantity += 1;
+      document.getElementById(`quantity-${item.id}`).innerText = item.quantity;
+      updateTotal();
+    }
+
+    // Function to decrease item quantity
+    function decreaseQuantity(itemId) {
+      const item = cartItems.find(item => item.id === itemId);
+      if (item.quantity > 1) {
+        item.quantity -= 1;
+        document.getElementById(`quantity-${item.id}`).innerText = item.quantity;
+        updateTotal();
+      }
+    }
+
+    // Function to handle proceed to pay
+    function proceedToPay() {
+      alert("Proceeding to payment...");
+      window.location.href = "payment.html"; // Redirect to payment page
+    }
+
+    // Render the order items dynamically when the page loads
+    window.onload = function() {
+      const orderList = document.getElementById('order-list');
+      cartItems.forEach(item => {
+        const orderItem = document.createElement('div');
+        orderItem.classList.add('order-item');
+        orderItem.id = `order-item-${item.id}`;
+        orderItem.innerHTML = `
+          <span>${item.name}</span>
+          <span>Price: Ksh ${item.price}</span> <!-- Price updated to Ksh -->
+          <span>Quantity: <span id="quantity-${item.id}">${item.quantity}</span></span>
+          <div>
+            <button onclick="decreaseQuantity(${item.id})">-</button>
+            <button onclick="increaseQuantity(${item.id})">+</button>
+            <button onclick="removeItem(${item.id})">Remove</button>
+          </div>
+        `;
+        orderList.appendChild(orderItem);
+      });
+
+      // Initial total update
+      updateTotal();
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Order History</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Shop</a></li>
+        <li><a href="login.html">Login</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="order-container">
+      <div class="order-list" id="order-list">
+        <!-- Dynamic order items will be added here -->
+      </div>
+
+      <div class="total-amount" id="total-amount">
+        <!-- Total amount will be displayed here -->
+      </div>
+
+      <button class="proceed-button" onclick="proceedToPay()">Proceed to Pay</button>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 E-commerce App | All rights reserved.</p>
+  </footer>
+</body>
+</html>

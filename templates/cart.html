@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cart</title>
+  <style>
+    /* CSS for Cart and Payment Page (same as previous) */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffffff;
+      color: #000;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #000;
+      color: #FFD700;
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    header nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+      gap: 20px;
+    }
+
+    header nav a {
+      color: #FFD700;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    header nav a:hover {
+      color: #fff;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 40px 20px;
+      background-color: #f8f8f8;
+    }
+
+    h2 {
+      color: #FFD700;
+      margin-bottom: 20px;
+    }
+
+    section {
+      width: 100%;
+      max-width: 800px;
+      background-color: #ffffff;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      border: 2px solid #FFD700;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 15px;
+    }
+
+    ul li {
+      padding: 8px;
+      background-color: #f0f0f0;
+      margin-bottom: 8px;
+      border-radius: 5px;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .cart-item button {
+      background-color: #FFD700;
+      color: #000;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background-color 0.3s;
+    }
+
+    .cart-item button:hover {
+      background-color: #e6c200;
+    }
+
+    .total {
+      font-weight: bold;
+      margin-top: 20px;
+    }
+
+    footer {
+      background-color: #000;
+      color: #fff;
+      text-align: center;
+      padding: 15px 0;
+      font-size: 0.9em;
+    }
+
+    .proceed-button {
+      background-color: #FFD700;
+      color: #000;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      margin-top: 20px;
+      transition: background-color 0.3s;
+    }
+
+    .proceed-button:hover {
+      background-color: #e6c200;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Your Cart</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">shop</a></li>
+        <li><a href="payment.html">Proceed to Payment</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Your Cart</h2>
+    <section>
+      <ul id="cart-items">
+        <li class="cart-item">
+          <p><strong>Man -shirt</strong></p>
+          <p>Price: Ksh 500</p>
+          <button class="remove-button">Remove</button>
+        </li>
+        <li class="cart-item">
+          <p><strong>Woman Scart</strong></p>
+          <p>Price: Ksh 600</p>
+          <button class="remove-button">Remove</button>
+        </li>
+      </ul>
+      <p class="total">Total: Ksh1100</p>
+      <button class="proceed-button"><a href="payment.html" style="text-decoration: none; color: black;">Proceed to Checkout</a></button>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 E-commerce App | All rights reserved.</p>
+  </footer>
+
+  <script>
+    // JavaScript to remove items and update the total
+    const removeButtons = document.querySelectorAll('.remove-button');
+    const cartItems = document.getElementById('cart-items');
+    const total = document.querySelector('.total');
+    
+    removeButtons.forEach(button => {
+      button.addEventListener('click', (e) => {
+        // Remove the item from the cart
+        e.target.parentElement.remove();
+        // Update the total after removal
+        updateTotal();
+      });
+    });
+
+    function updateTotal() {
+      let totalAmount = 0;
+      const cartItemsList = document.querySelectorAll('.cart-item');
+      cartItemsList.forEach(item => {
+        const price = parseFloat(item.querySelector('p:nth-child(2)').textContent.replace('Price: $', ''));
+        totalAmount += price;
+      });
+      total.textContent = `Total: $${totalAmount}`;
+    }
+  </script>
+</body>
+</html>

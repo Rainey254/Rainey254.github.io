@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffffff;
+      color: #000;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #000;
+      color: #FFD700;
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    header nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+      gap: 20px;
+    }
+
+    header nav a {
+      color: #FFD700;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    header nav a:hover {
+      color: #fff;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+      background-color: #f8f8f8;
+    }
+
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      background-color: #ffffff;
+      padding: 30px;
+      border: 2px solid #FFD700;
+      border-radius: 12px;
+      width: 100%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      font-weight: bold;
+      color: #000;
+    }
+
+    input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1em;
+    }
+
+    button {
+      background-color: #FFD700;
+      color: #000;
+      border: none;
+      padding: 12px;
+      font-size: 1em;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #e6c200;
+    }
+
+    .login-link {
+      margin-top: 10px;
+      font-size: 0.95em;
+      text-align: center;
+    }
+
+    .login-link a {
+      color: #000;
+      text-decoration: underline;
+    }
+
+    .login-link a:hover {
+      color: #FFD700;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 0.9em;
+      text-align: center;
+    }
+
+    .success-message {
+      color: green;
+      font-size: 1em;
+      text-align: center;
+      font-weight: bold;
+      display: none;
+    }
+
+    footer {
+      background-color: #000;
+      color: #fff;
+      text-align: center;
+      padding: 15px 0;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Create Your Account</h1>
+    <nav>
+      <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="login.html">Login</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="form-container">
+      <form id="register-form">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Your Name" required />
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required />
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Your Password" required />
+
+        <label for="confirm_password">Confirm Password</label>
+        <input type="password" id="confirm_password" name="confirm_password" placeholder="Re-enter Password" required />
+
+        <button type="submit">Register</button>
+
+        <p id="register-error" class="error-message"></p>
+        <p id="register-success" class="success-message">Registration successful! Redirecting...</p>
+
+        <p class="login-link">Already have an account? <a href="login.html">Log in</a></p>
+      </form>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 E-commerce App | All rights reserved.</p>
+  </footer>
+
+  <script>
+    const form = document.getElementById('register-form');
+    const errorEl = document.getElementById('register-error');
+    const successEl = document.getElementById('register-success');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const password = document.getElementById('password').value;
+      const confirm = document.getElementById('confirm_password').value;
+
+      if (password !== confirm) {
+        errorEl.textContent = "Passwords do not match!";
+        successEl.style.display = "none";
+        return;
+      }
+
+      // Clear error, show success
+      errorEl.textContent = "";
+      successEl.style.display = "block";
+
+      // Simulate redirection after 2.5 seconds
+      setTimeout(() => {
+        window.location.href = "login.html"; // Redirect to login
+      }, 2500);
+    });
+  </script>
+</body>
+</html>
+

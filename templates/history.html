@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Order History</title>
+  <style>
+    /* Reset and base styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffffff;
+      color: #000;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    header {
+      background-color: #000;
+      color: #FFD700;
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    header nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+      gap: 20px;
+    }
+
+    header nav a {
+      color: #FFD700;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    header nav a:hover {
+      color: #fff;
+    }
+
+    /* Main layout */
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      flex-direction: column;
+      padding: 40px 20px;
+      background-color: #f8f8f8;
+    }
+
+    /* Container for orders */
+    .order-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    /* Order list container */
+    .order-status-container {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .order-status-container h3 {
+      background-color: #FFD700;
+      padding: 10px;
+      font-size: 1.2em;
+      text-align: center;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #ddd;
+      align-items: center;
+    }
+
+    .order-item:last-child {
+      border-bottom: none;
+    }
+
+    .order-item span {
+      font-size: 1em;
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    /* Buttons */
+    .cancel-order-button, .delete-order-button {
+      background-color: #e60000;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      font-size: 1em;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-left: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    .cancel-order-button:hover, .delete-order-button:hover {
+      background-color: #cc0000;
+    }
+
+    footer {
+      background-color: #000;
+      color: #fff;
+      text-align: center;
+      padding: 15px 0;
+      font-size: 0.9em;
+    }
+  </style>
+  <script>
+    // Example order items with different statuses
+    let orderItems = [
+      { id: 1, name: 'Product 1', price: 600, quantity: 1, status: 'Completed' },
+      { id: 2, name: 'Product 2', price: 750, quantity: 2, status: 'Pending' },
+      { id: 3, name: 'Product 3', price: 500, quantity: 1, status: 'Awaiting Dispatch' },
+      { id: 4, name: 'Product 4', price: 500, quantity: 3, status: 'In Transit' },
+    ];
+
+    // Function to remove an item
+    function removeItem(itemId) {
+      const itemElement = document.getElementById(`order-item-${itemId}`);
+      if (itemElement) {
+        itemElement.remove();
+      }
+      orderItems = orderItems.filter(item => item.id !== itemId);
+    }
+
+    // Function to cancel the order
+    function cancelOrder(itemId) {
+      const itemElement = document.getElementById(`order-item-${itemId}`);
+      const item = orderItems.find(item => item.id === itemId);
+      item.status = 'Cancelled';
+      document.getElementById(`status-${item.id}`).innerText = 'Cancelled';
+      // Remove the item after status change
+      itemElement.remove();
+    }
+
+    // Function to delete a completed order
+    function deleteCompletedOrder(itemId) {
+      const itemElement = document.getElementById(`order-item-${itemId}`);
+      // Remove the item from the list and update the orderItems array
+      itemElement.remove();
+      orderItems = orderItems.filter(item => item.id !== itemId);
+    }
+
+    // Render the order items dynamically when the page loads
+    window.onload = function() {
+      const completedContainer = document.getElementById('completed-orders');
+      const pendingContainer = document.getElementById('pending-orders');
+      const awaitingDispatchContainer = document.getElementById('awaiting-dispatch-orders');
+      const inTransitContainer = document.getElementById('in-transit-orders');
+
+      orderItems.forEach(item => {
+        const orderItem = document.createElement('div');
+        orderItem.classList.add('order-item');
+        orderItem.id = `order-item-${item.id}`;
+        orderItem.innerHTML = `
+          <span>${item.name} - Quantity: ${item.quantity} - Price: $${item.price}</span>
+          <span>Status: <span id="status-${item.id}">${item.status}</span></span>
+          ${item.status === 'Pending' || item.status === 'Awaiting Dispatch' ? `
+            <button class="cancel-order-button" onclick="cancelOrder(${item.id})">Cancel Order</button>
+          ` : ''}
+          ${item.status === 'Completed' ? `
+            <button class="delete-order-button" onclick="deleteCompletedOrder(${item.id})">Delete</button>
+          ` : ''}
+        `;
+
+        if (item.status === 'Completed') {
+          completedContainer.appendChild(orderItem);
+        } else if (item.status === 'Pending') {
+          pendingContainer.appendChild(orderItem);
+        } else if (item.status === 'Awaiting Dispatch') {
+          awaitingDispatchContainer.appendChild(orderItem);
+        } else if (item.status === 'In Transit') {
+          inTransitContainer.appendChild(orderItem);
+        }
+      });
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Order History</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">shop</a></li>
+        <li><a href="login.html">Login</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="order-container">
+      <!-- Completed Orders -->
+      <div class="order-status-container" id="completed-orders">
+        <h3>Completed Orders</h3>
+        <!-- Completed orders will be displayed here -->
+      </div>
+
+      <!-- Pending Orders -->
+      <div class="order-status-container" id="pending-orders">
+        <h3>Pending Orders</h3>
+        <!-- Pending orders will be displayed here --p
+         /,.
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         '
+         
+         
+         '''''''''''''''''''''''''''''
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         \\'
+         \
+         
+         
+         \
+         \
+         \\
+         '''''
+         \
+         
+         \
+         
+         \\\\\\\\\\\\\\\\\\\\\\\\\\\'>
+      </div>
+
+      <!-- Awaiting Dispatch Orders -->
+      <div class="order-status-container" id="awaiting-dispatch-orders">
+        <h3>Awaiting Dispatch</h3>
+        <!-- Awaiting dispatch orders will be displayed here -->
+      </div>
+
+      <!-- In Transit Orders -->
+      <div class="order-status-container" id="in-transit-orders">
+        <h3>In Transit</h3>
+        <!-- In-transit orders will be displayed here -->
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 E-commerce App | All rights reserved.</p>
+  </footer>
+</body>
+</html>
+

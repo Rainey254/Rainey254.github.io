@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login</title>
+  <style>
+    /* Reset and base styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffffff;
+      color: #000;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    header {
+      background-color: #000;
+      color: #FFD700;
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    header nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+      gap: 20px;
+    }
+
+    header nav a {
+      color: #FFD700;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    header nav a:hover {
+      color: #fff;
+    }
+
+    /* Main layout */
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+      background-color: #f8f8f8;
+    }
+
+    /* Container for form */
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    /* Form styling */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      background-color: #ffffff;
+      padding: 30px;
+      border: 2px solid #FFD700;
+      border-radius: 12px;
+      width: 100%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Labels & inputs */
+    label {
+      font-weight: bold;
+      color: #000;
+    }
+
+    input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1em;
+    }
+
+    /* Submit button */
+    button {
+      background-color: #FFD700;
+      color: #000;
+      border: none;
+      padding: 12px;
+      font-size: 1em;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #e6c200;
+    }
+
+    /* Register link inside form */
+    .register-link {
+      margin-top: 10px;
+      font-size: 0.95em;
+      text-align: center;
+    }
+
+    .register-link a {
+      color: #000;
+      text-decoration: underline;
+    }
+
+    .register-link a:hover {
+      color: #FFD700;
+    }
+
+    /* Error message */
+    .error-message {
+      color: red;
+      font-size: 0.9em;
+      text-align: center;
+    }
+
+    /* Success message */
+    .success-message {
+      color: green;
+      font-size: 1em;
+      text-align: center;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #000;
+      color: #fff;
+      text-align: center;
+      padding: 15px 0;
+      font-size: 0.9em;
+    }
+  </style>
+  <script>
+    // Simulate login functionality without validation
+    function handleLogin(event) {
+      event.preventDefault(); // Prevent form submission
+
+      var email = document.getElementById("email").value;
+      var password = document.getElementById("password").value;
+
+      // Display success message regardless of the input
+      document.getElementById("login-error").style.display = "none"; // Hide error message
+      document.getElementById("login-form").style.display = "none"; // Hide form
+      document.getElementById("success-message").style.display = "block"; // Show success message
+
+      // Redirect to home page after 2 seconds
+      setTimeout(function() {
+        window.location.href = "index.html"; // Redirect to homepage
+      }, 2000); // Redirect after 2 seconds
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Login</h1>
+    <nav>
+      <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="register.html">Register</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="form-container">
+      <form id="login-form" method="POST" onsubmit="handleLogin(event)">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required />
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Your Password" required />
+
+        <button type="submit">Login</button>
+
+        <p id="login-error" class="error-message" style="display: none;">Invalid email or password. Please try again.</p>
+        <p id="success-message" class="success-message" style="display: none;">Login successful! Redirecting...</p>
+
+        <p class="register-link">Don't have an account? <a href="register.html">Register here</a></p>
+      </form>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 E-commerce App | All rights reserved.</p>
+  </footer>
+</body>
+</html>
+
+

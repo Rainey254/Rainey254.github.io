@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard</title>
+  <style>
+    /* Reset and base styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffffff;
+      color: #000;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    header {
+      background-color: #000;
+      color: #FFD700;
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    header nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+      gap: 20px;
+    }
+
+    header nav a {
+      color: #FFD700;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    header nav a:hover {
+      color: #fff;
+    }
+
+    /* Main layout */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 40px 20px;
+      background-color: #f8f8f8;
+    }
+
+    /* Title and welcome */
+    h2 {
+      color: #FFD700;
+      margin-bottom: 20px;
+    }
+
+    /* Sections */
+    section {
+      width: 100%;
+      max-width: 800px;
+      background-color: #ffffff;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      border: 2px solid #FFD700;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    h3 {
+      color: #000;
+      margin-bottom: 15px;
+    }
+
+    /* Form elements */
+    label {
+      font-weight: bold;
+      color: #000;
+      margin-bottom: 8px;
+    }
+
+    input, textarea {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1em;
+      margin-bottom: 15px;
+      width: 100%;
+    }
+
+    button {
+      background-color: #FFD700;
+      color: #000;
+      border: none;
+      padding: 12px;
+      font-size: 1em;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #e6c200;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #000;
+      color: #fff;
+      text-align: center;
+      padding: 15px 0;
+      font-size: 0.9em;
+    }
+
+    /* Links */
+    p a {
+      color: #000;
+      text-decoration: underline;
+    }
+
+    p a:hover {
+      color: #FFD700;
+    }
+
+    /* User and Product lists */
+    ul {
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 15px;
+    }
+
+    ul li {
+      padding: 8px;
+      background-color: #f0f0f0;
+      margin-bottom: 8px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Admin Dashboard</h1>
+    <nav>
+      <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="register.html">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+      <h2>Welcome, Admin Javis</h2>
+      
+      <section>
+        <h3>Manage Users</h3>
+        <ul id="user-list">
+            <li>User 1</li>
+            <li>User 2</li>
+            <li>User 3</li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Manage Products</h3>
+        <ul id="product-list">
+            <li>Product 1</li>
+            <li>Product 2</li>
+            <li>Product 3</li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Add New Product</h3>
+        <form id="add-product-form" method="POST" action="/admin/add_product">
+          <label for="product-name">Name:</label>
+          <input type="text" id="product-name" name="name" required />
+
+          <label for="product-price">Price:</label>
+          <input type="number" id="product-price" name="price" required />
+
+          <label for="product-description">Description:</label>
+          <textarea id="product-description" name="description" required></textarea>
+
+          <button type="submit">Add Product</button>
+        </form>
+      </section>
+
+      <p>You do not have access to this page. Please <a href="login.html">log in</a>.</p>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 E-commerce App | All rights reserved.</p>
+  </footer>
+</body>
+</html>
